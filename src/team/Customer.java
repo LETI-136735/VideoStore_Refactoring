@@ -46,4 +46,18 @@ public class Customer {
         result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
         return result;
     }
+
+    public String htmlStatement() {
+        String result = "<h1>Rental Record for <em>" + getName() + "</em></h1>\n<ul>";
+
+        for (Rental each : _rentals) {
+            double thisAmount = each.getAmount();
+            result += "<li>" + each.getMovie().getTitle() + ": " + thisAmount + "</li>\n";
+        }
+
+        result += "</ul>\n<p>Amount owed is <em>" + getTotalAmount() + "</em></p>\n";
+        result += "<p>You earned <em>" + getTotalFrequentRenterPoints() + "</em> frequent renter points</p>";
+
+        return result;
+    }
 }
