@@ -2,49 +2,48 @@ package team;
 
 import java.util.Vector;
 
-public class Customer
-{
-	private String			_name;
-	private Vector<Rental>	_rentals	= new Vector<Rental>();
+public class Customer {
+    private String _name;
+    private Vector<Rental> _rentals = new Vector<Rental>();
 
-	public Customer(String _name)
-	{
-		this._name = _name;
-	}
+    public Customer(String name) {
+        this._name = name;
+    }
 
-	public void addRental(Rental arg)
-	{
-		_rentals.addElement(arg);
-	}
+    public void addRental(Rental arg) {
+        _rentals.addElement(arg);
+    }
 
-	public String getName()
-	{
-		return _name;
-	}
+    public String getName() {
+        return _name;
+    }
 
-	public String statement()
-	{
-		double totalAmount = 0;
-		int frequentRenterPoints = 0;
+    public double getTotalAmount() {
+        double totalAmount = 0;
+        for (Rental each : _rentals) {
+            totalAmount += each.getAmount();
+        }
+        return totalAmount;
+    }
 
-		// header
-		String result = "Rental Record for " + getName() + "\n";
-		
-		for (Rental each: _rentals)
-		{
-            double thisAmount = each.getAmount();
-
+    public int getTotalFrequentRenterPoints() {
+        int frequentRenterPoints = 0;
+        for (Rental each : _rentals) {
             frequentRenterPoints = each.getFrequentRentalPoints(frequentRenterPoints);
+        }
+        return frequentRenterPoints;
+    }
 
-            // show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
-			totalAmount += thisAmount;
-		}
+    public String statement() {
+        String result = "Rental Record for " + getName() + "\n";
 
-		// add footer lines
-		result += "Amount owed is " + totalAmount + "\n";
-		result += "You earned " + frequentRenterPoints + " frequent renter points";
-		return result;
-	}
+        for (Rental each : _rentals) {
+            double thisAmount = each.getAmount();
+            result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
+        }
 
+        result += "Amount owed is " + getTotalAmount() + "\n";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
+        return result;
+    }
 }
