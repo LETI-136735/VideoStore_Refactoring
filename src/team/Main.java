@@ -12,7 +12,7 @@ public abstract class Main
 	 ***********************************************************/
 	public static void main(String[] args)
 	{
-		Customer who = new Customer("Barack Obama");
+		Movie.Customer who = new Movie.Customer("Barack Obama");
 		Movie m1 = new Movie("Life of Amalia", Movie.Code.REGULAR);
 		Movie m2 = new Movie("Peter Pan", Movie.Code.CHILDRENS);
 		Movie m3 = new Movie("Donna del Lago", Movie.Code.NEW_RELEASE);
