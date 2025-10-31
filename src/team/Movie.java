@@ -7,9 +7,9 @@ public class Movie {
     private String _title;
     private Price _price;
 
-    public Movie(String title, Price.Code priceCode) {
+    public Movie(String title, Price price) {
         _title = title;
-        _price = new Price(priceCode);
+        _price = price;
     }
 
     public String getTitle() {
@@ -20,11 +20,6 @@ public class Movie {
         return _price;
     }
 
-    public Price.Code getPriceCode() {
-        return _price.getCode();
-    }
-
-    // Delegaciones opcionales para mantener compatibilidad con llamadas existentes
     public double getRentalAmount(int daysRented) {
         return _price.getRentalAmount(daysRented);
     }
@@ -33,10 +28,9 @@ public class Movie {
         return _price.getFrequentRentalPoints(daysRented);
     }
 
-    // --- Tu clase Customer tal cual estaba ---
     public static class Customer {
         private String _name;
-        private Vector<Rental> _rentals = new Vector<Rental>();
+        private Vector<Rental> _rentals = new Vector<>();
 
         public Customer(String name) {
             this._name = name;
@@ -67,30 +61,37 @@ public class Movie {
         }
 
         public String statement() {
-            String result = "Rental Record for " + getName() + "\n";
+            StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
 
             for (Rental each : _rentals) {
                 double thisAmount = each.getAmount();
-                result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
+                result.append("\t").append(each.getMovie().getTitle())
+                        .append("\t").append(thisAmount).append("\n");
             }
 
-            result += "Amount owed is " + getaRentalAmount() + "\n";
-            result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
-            return result;
+            result.append("Amount owed is ").append(getaRentalAmount()).append("\n");
+            result.append("You earned ").append(getTotalFrequentRenterPoints())
+                    .append(" frequent renter points");
+            return result.toString();
         }
 
         public String htmlStatement() {
-            String result = "<h1>Rental Record for <em>" + getName() + "</em></h1>\n<ul>";
+            StringBuilder result = new StringBuilder("<h1>Rental Record for <em>")
+                    .append(getName()).append("</em></h1>\n<ul>");
 
             for (Rental each : _rentals) {
                 double thisAmount = each.getAmount();
-                result += "<li>" + each.getMovie().getTitle() + ": " + thisAmount + "</li>\n";
+                result.append("<li>").append(each.getMovie().getTitle())
+                        .append(": ").append(thisAmount).append("</li>\n");
             }
 
-            result += "</ul>\n<p>Amount owed is <em>" + getaRentalAmount() + "</em></p>\n";
-            result += "<p>You earned <em>" + getTotalFrequentRenterPoints() + "</em> frequent renter points</p>";
+            result.append("</ul>\n<p>Amount owed is <em>")
+                    .append(getaRentalAmount()).append("</em></p>\n");
+            result.append("<p>You earned <em>")
+                    .append(getTotalFrequentRenterPoints())
+                    .append("</em> frequent renter points</p>");
 
-            return result;
+            return result.toString();
         }
     }
 }
