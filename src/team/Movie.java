@@ -4,24 +4,36 @@ import java.util.Vector;
 
 public class Movie {
 
-	public enum Code {REGULAR, CHILDRENS, NEW_RELEASE};
-	
-	private String _title;
-	private Code _priceCode;
-	
-	public Movie(String title, Code priceCode) {
-		_title = title;
-		_priceCode = priceCode;
-	}
+    private String _title;
+    private Price _price;
 
-	public String getTitle() {
-		return _title;
-	}
+    public Movie(String title, Price.Code priceCode) {
+        _title = title;
+        _price = new Price(priceCode);
+    }
 
-	public Code getPriceCode() {
-		return _priceCode;
-	}
+    public String getTitle() {
+        return _title;
+    }
 
+    public Price getPrice() {
+        return _price;
+    }
+
+    public Price.Code getPriceCode() {
+        return _price.getCode();
+    }
+
+    // Delegaciones opcionales para mantener compatibilidad con llamadas existentes
+    public double getRentalAmount(int daysRented) {
+        return _price.getRentalAmount(daysRented);
+    }
+
+    public int getFrequentRentalPoints(int daysRented) {
+        return _price.getFrequentRentalPoints(daysRented);
+    }
+
+    // --- Tu clase Customer tal cual estaba ---
     public static class Customer {
         private String _name;
         private Vector<Rental> _rentals = new Vector<Rental>();
